@@ -6,10 +6,18 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-@api.add_resource("/")
+@api.resource("/")
 class Hello(Resource):
     def get(self):
-        return jsonify({"message": "Hello world"})
+        return {"message": "Hello world"}
+    
+@api.resource("/<item>")
+class HelloItem(Resource):
+    def get(self, item):
+        return {
+            "message": "Hello item",
+            "item": item
+        }
 
 if __name__ == "__main__":
     app.run()
