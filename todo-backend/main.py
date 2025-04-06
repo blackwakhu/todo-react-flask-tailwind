@@ -32,7 +32,9 @@ class HelloItem(Resource):
 @api.resource("/tasks")
 class Tasks(Resource):
     def get(self):
-        return {"route":"/tasks", "data":"data"}
-
+        task_cursor = task_collection.find()
+        task_list = [{"_id": str(task['_id'])} for task in task_cursor]
+        return {"route": "/tasks", "data": task_list}, 200 
+    
 if __name__ == "__main__":
     app.run()
