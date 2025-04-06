@@ -4,6 +4,7 @@ function Task() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("Low");
   useEffect(function () {
     const fetchData = function () {
       fetch("http://localhost:5000/tasks")
@@ -18,20 +19,45 @@ function Task() {
 
   if (tasks === null) return <p>Loading tasks...</p>;
 
+  const getSubmit = function (event) {
+    event.preventDefault();
+    const taskData = {
+      title: title,
+      description: description,
+      priority: priority,
+    };
+
+    fetch("http://localhost:5000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => console.log("tasks created:", data))
+      .catch((error) => console.error("Error creating tasks:", error));
+  };
+
   return (
     <>
       <div>
         <h1 className="text-4x1 underline">Tasks</h1>
         <div>
           <h2>Add new task</h2>
-          <form action="" method="post">
+          <form action="" method="post" onSubmit={getSubmit}>
             <input
               type="text"
               name=""
               id=""
               placeholder="Title of the tasks"
               value={title}
-              onChange={(e)=> setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
               name=""
@@ -39,10 +65,20 @@ function Task() {
               cols="30"
               rows="2"
               value={description}
-              onChange={(e)=> setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
             ></textarea>
-            <input type="submit" value="Submit" />
+            <select
+              name=""
+              id=""
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+            <button type="submit">Submit</button>
           </form>
         </div>
         <div>
@@ -52,7 +88,7 @@ function Task() {
           ) : (
             <ul>
               {tasks.map((task) => (
-                <li key={task._id}>{task._id}</li>
+                <li key={task._id}>{task.title}</li>
               ))}
             </ul>
           )}
