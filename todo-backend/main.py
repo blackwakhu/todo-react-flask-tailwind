@@ -39,7 +39,12 @@ class HelloItem(Resource):
 class Tasks(Resource):
     def get(self):
         task_cursor = task_collection.find()
-        task_list = [{"_id": str(task['_id']), 'title': task['title']} for task in task_cursor]
+        task_list = [
+            {
+                "_id": str(task['_id']), 
+                'title': task['title'],
+                'description': task['description']
+            } for task in task_cursor]
         return {
             "route": "/tasks", 
             "data": task_list,

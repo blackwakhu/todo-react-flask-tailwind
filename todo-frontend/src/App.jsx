@@ -56,6 +56,7 @@ function App() {
           type="text"
           name=""
           id=""
+          
           value={inp}
           onChange={(e) => {
             setInp(e.target.value);

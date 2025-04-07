@@ -56,6 +56,7 @@ function Task() {
               name=""
               id=""
               placeholder="Title of the tasks"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -63,6 +64,7 @@ function Task() {
               name=""
               id=""
               cols="30"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4 mb-4"
               rows="2"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -86,11 +88,13 @@ function Task() {
           {tasks.length === 0 ? (
             <p>No Tasks currently available</p>
           ) : (
-            <ul>
+            <>
               {tasks.map((task) => (
-                <li key={task._id}>{task.title}</li>
+                <div key={task._id}>
+                  <p>{task.title}</p>
+                </div>
               ))}
-            </ul>
+            </>
           )}
         </div>
       </div>
