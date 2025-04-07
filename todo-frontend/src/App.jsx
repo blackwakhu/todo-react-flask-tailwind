@@ -29,12 +29,6 @@ function App() {
                 </button>
               </li>
               <li>
-                {/* <a
-                  href="#"
-                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
-                >
-                  Add Task
-                </a> */}
                 <button
                   onClick={() => handleItemClick("add task")}
                   className={`block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md w-full text-left ${
@@ -42,6 +36,16 @@ function App() {
                   }`}
                 >
                   Add Task
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleItemClick("all task")}
+                  className={`block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md w-full text-left ${
+                    activeItem === "all tasks" ? "bg-blue-500 text-white" : ""
+                  }`}
+                >
+                  All Tasks
                 </button>
               </li>
               <li>
@@ -72,16 +76,16 @@ function App() {
           </nav>
         </aside>
         <div className="flex-1 p-6">
-          {activeItem === "dashboard" && (
-            <div className="bg-white rounded-md shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">DashBoard</h2>
-            </div>
-          )}
-          {activeItem === 'add task' && (
-            <div className="bg-white rounded-md shadow-md p-6">
-              <Task/>
-            </div>
-          )}
+          <div className="bg-white rounded-md shadow-md p-6">
+            {activeItem === "dashboard" && (
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                  Dashboard
+                </h2>
+              </div>
+            )}
+            {activeItem === "add task" && <Task />}
+          </div>
         </div>
       </div>
     </>

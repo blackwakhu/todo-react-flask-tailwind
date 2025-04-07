@@ -1,8 +1,9 @@
 from flask import Flask, jsonify
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, inputs
 from pymongo import MongoClient
 from bson import ObjectId
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +22,7 @@ task_parser = reqparse.RequestParser()
 task_parser.add_argument('title', type=str, required=True, help="Title for tasks")
 task_parser.add_argument('description', type=str, required=True, help="Description for tasks")
 task_parser.add_argument('priority', type=str, default="Low", help="Priority for tasks")
+task_parser.add_argument('dateScheduled', type=inputs.datetime, required=True, help="Datetime for the tasks scheduled")
 
 @api.resource("/")
 class Hello(Resource):
@@ -56,8 +58,16 @@ class Tasks(Resource):
         title = args['title']
         description = args['description']
         priority = args['priority']
+        dateScheduled: datetime = args['dateScheduled']
 
-        new_task = {'title': title, 'description': description, 'priority': priority, 'progress': 'incomplete'}
+        new_task = {
+            'title': title, 
+            'description': description, 
+            'priority': priority, 
+            'progress': 'incomplete',
+            'dateScheduled': dateScheduled,
+            'created': datetime.now()
+        }
         inserted_task = task_collection.insert_one(new_task)
         new_task['_id'] = str(inserted_task.inserted_id)
         return {

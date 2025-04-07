@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
 
 function Task() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Low");
+  const [schedule, setSchedule] = useState(null);
+
   useEffect(function () {
     const fetchData = function () {
       fetch("http://localhost:5000/tasks")
@@ -25,6 +28,7 @@ function Task() {
       title: title,
       description: description,
       priority: priority,
+      dateScheduled: schedule
     };
 
     fetch("http://localhost:5000/tasks", {
@@ -47,33 +51,48 @@ function Task() {
   return (
     <>
       <div>
-        <h1 className="text-4x1 underline">Tasks</h1>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Add Task</h2>
         <div>
-          <h2>Add new task</h2>
           <form action="" method="post" onSubmit={getSubmit}>
+            <label
+              htmlFor="title"
+              className="block text-gray-700 text-md font-bold mb-2"
+            >
+              Title
+            </label>
             <input
               type="text"
-              name=""
-              id=""
+              name="title"
+              id="title"
               placeholder="Title of the tasks"
-              className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="shadow appearance-none border rounded min-w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+            <label
+              htmlFor="description"
+              className="block text-gray-700 text-md font-bold mb-2"
+            >
+              Description
+            </label>
             <textarea
-              name=""
-              id=""
-              cols="30"
-              className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4 ml-4"
-              rows="2"
+              name="description"
+              id="description"
+              className="shadow appearance-none border min-w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
             ></textarea>
+            <label
+              htmlFor="priority"
+              className="block text-gray-700 text-md font-bold mb-2"
+            >
+              Priority
+            </label>
             <select
-              name=""
-              id=""
-              className="shadow appearance-none border rounded py-2 px-3 text-gray-700"
+              name="priority"
+              id="priority"
+              className="shadow appearance-none min-w-full border rounded py-2 px-3 text-gray-700"
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
             >
@@ -81,7 +100,24 @@ function Task() {
               <option value="Medium">Medium</option>
               <option value="High">High</option>
             </select>
-            <button className="shadow border py-2 px-3 ml-4 rounded-2xl bg-green-600" type="submit">
+            <label
+              htmlFor="date_schedule"
+              className="block text-gray-700 text-md font-bold mb-2"
+            >
+              Date Scheduled
+            </label>
+            <input
+              type="datetime-local"
+              name="schedule"
+              id="schedule"
+              value={schedule}
+              onChange={(e) => setSchedule(e.target.value)}
+            />
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+              type="submit"
+            >
               Submit
             </button>
           </form>
