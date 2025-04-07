@@ -50,25 +50,9 @@ function App() {
 
   return (
     <>
-      <h1 className="text-5xl">Hello world</h1>
-      <form onSubmit={submit_btn}>
-        <input
-          type="text"
-          name=""
-          id=""
-          
-          value={inp}
-          onChange={(e) => {
-            setInp(e.target.value);
-          }}
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      <button onClick={hello_function}>click me</button>
-      <p>
-        {message} {count}
-      </p>
-      <p>{item}</p>
+      <div>
+        
+      </div>
       <div>
         <Task/>
       </div>
