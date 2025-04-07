@@ -28,7 +28,7 @@ function Task() {
       title: title,
       description: description,
       priority: priority,
-      dateScheduled: schedule
+      schedule: schedule
     };
 
     fetch("http://localhost:5000/tasks", {

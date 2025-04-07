@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from flask_cors import CORS
 from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 CORS(app)
@@ -22,7 +23,7 @@ task_parser = reqparse.RequestParser()
 task_parser.add_argument('title', type=str, required=True, help="Title for tasks")
 task_parser.add_argument('description', type=str, required=True, help="Description for tasks")
 task_parser.add_argument('priority', type=str, default="Low", help="Priority for tasks")
-task_parser.add_argument('dateScheduled', type=inputs.datetime, required=True, help="Datetime for the tasks scheduled")
+task_parser.add_argument('schedule', type=str, required=True, help="Datetime for the tasks scheduled")
 
 @api.resource("/")
 class Hello(Resource):
@@ -58,14 +59,19 @@ class Tasks(Resource):
         title = args['title']
         description = args['description']
         priority = args['priority']
-        dateScheduled: datetime = args['dateScheduled']
+        schedule_str = args['schedule']
+
+        try:
+            schedule = datetime.fromisoformat(schedule_str.replace('Z', '+00:00'))
+        except ValueError as e:
+            return {"message": f'Invalid datetime format for schedule: {e}'}, 400
 
         new_task = {
             'title': title, 
             'description': description, 
             'priority': priority, 
             'progress': 'incomplete',
-            'dateScheduled': dateScheduled,
+            'dateScheduled': schedule,
             'created': datetime.now()
         }
         inserted_task = task_collection.insert_one(new_task)
