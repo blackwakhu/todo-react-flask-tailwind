@@ -5,56 +5,63 @@ import "./App.css";
 import Task from "./Task";
 
 function App() {
-  const [message, setMessage] = useState("");
-  const [count, setCount] = useState(0);
-  const [item, setItem] = useState("");
-  const [inp, setInp] = useState("");
-
-  function submit_btn(event){
-    event.preventDefault();
-
-    // Assuming inp is a variable storing the input value
-    if (!inp) {
-      console.error("Input is empty.");
-      return;
-    }
-  
-    const url = `http://localhost:5000/${encodeURIComponent(inp)}`;
-  
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMessage(data.message);
-        setItem(data.item);
-      })
-      .catch((error) => {
-        console.error("Error in fetching data:", error);
-      });
-  }
-
-  function hello_function() {
-    setCount(count + 1);
-    fetch("http://localhost:5000")
-      .then((response) => response.json())
-      .then((data) => {
-        setMessage(data.message);
-        setItem("");
-      })
-      .catch((error) => console.error("error in fetching data: ", error));
-  }
-
   return (
     <>
-      <div>
-        
-      </div>
-      <div>
-        <Task/>
+      <div className="flex h-screen bg-gray-100">
+        <aside className="bg-gray-200 w-64 p-6">
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-gray-700">Menu</h3>
+          </div>
+          <nav>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                >
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                >
+                  Add Task
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                >
+                Search
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                >
+                  Today
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                >
+                  Upcoming
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <div className="flex-1 p-6">
+          <div>
+            <Task />
+          </div>
+        </div>
       </div>
     </>
   );
