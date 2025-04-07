@@ -5,6 +5,10 @@ import "./App.css";
 import Task from "./Task";
 
 function App() {
+  const [activeItem, setActiveItem] = useState("dashboard");
+  const handleItemClick = function (name) {
+    setActiveItem(name);
+  };
   return (
     <>
       <div className="flex h-screen bg-gray-100">
@@ -15,27 +19,37 @@ function App() {
           <nav>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+                <button
+                  onClick={() => handleItemClick("dashboard")}
+                  className={`block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md w-full text-left ${
+                    activeItem === "dashboard" ? "bg-blue-500 text-white" : ""
+                  }`}
                 >
                   Dashboard
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                {/* <a
                   href="#"
                   className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
                 >
                   Add Task
-                </a>
+                </a> */}
+                <button
+                  onClick={() => handleItemClick("add task")}
+                  className={`block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md w-full text-left ${
+                    activeItem === "add task" ? "bg-blue-500 text-white" : ""
+                  }`}
+                >
+                  Add Task
+                </button>
               </li>
               <li>
                 <a
                   href="#"
                   className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
                 >
-                Search
+                  Search
                 </a>
               </li>
               <li>
@@ -58,9 +72,16 @@ function App() {
           </nav>
         </aside>
         <div className="flex-1 p-6">
-          <div>
-            <Task />
-          </div>
+          {activeItem === "dashboard" && (
+            <div className="bg-white rounded-md shadow-md p-6">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">DashBoard</h2>
+            </div>
+          )}
+          {activeItem === 'add task' && (
+            <div className="bg-white rounded-md shadow-md p-6">
+              <Task/>
+            </div>
+          )}
         </div>
       </div>
     </>
