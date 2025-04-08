@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 function Task({ setActiveItem }) {
-  const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Low");
   const [schedule, setSchedule] = useState(null);
-
-  useEffect(function () {
-    const fetchData = function () {
-      fetch("http://localhost:5000/tasks")
-        .then((res) => res.json())
-        .then((data) => setTasks(data.data))
-        .catch((err) => console.error(err));
-    };
-    fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (tasks === null) return <p>Loading tasks...</p>;
 
   const getSubmit = function (event) {
     event.preventDefault();
@@ -47,7 +32,7 @@ function Task({ setActiveItem }) {
         console.log("tasks created:", data);
       })
       .catch((error) => console.error("Error creating tasks:", error));
-      setActiveItem("all tasks")
+    setActiveItem("all tasks");
   };
 
   return (
@@ -109,6 +94,7 @@ function Task({ setActiveItem }) {
               Date Scheduled
             </label>
             <input
+              className="shadow appearance-none border rounded min-w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="datetime-local"
               name="schedule"
               id="schedule"
@@ -123,21 +109,6 @@ function Task({ setActiveItem }) {
               Submit
             </button>
           </form>
-        </div>
-        <div>
-          <h2>All Tasks</h2>
-          {tasks.length === 0 ? (
-            <p>No Tasks currently available</p>
-          ) : (
-            <>
-              {tasks.map((task) => (
-                <div key={task._id} className="flex justify-between">
-                  <div>{task.title}</div>
-                  <div>{task.description}</div>
-                </div>
-              ))}
-            </>
-          )}
         </div>
       </div>
     </>
