@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-
-function Task() {
+function Task({ setActiveItem }) {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -28,7 +27,7 @@ function Task() {
       title: title,
       description: description,
       priority: priority,
-      schedule: schedule
+      schedule: schedule,
     };
 
     fetch("http://localhost:5000/tasks", {
@@ -44,8 +43,11 @@ function Task() {
         }
         return res.json();
       })
-      .then((data) => console.log("tasks created:", data))
+      .then((data) => {
+        console.log("tasks created:", data);
+      })
       .catch((error) => console.error("Error creating tasks:", error));
+      setActiveItem("all tasks")
   };
 
   return (

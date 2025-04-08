@@ -84,7 +84,7 @@ function App() {
                 </h2>
               </div>
             )}
-            {activeItem === "add task" && <Task />}
+            {activeItem === "add task" && <Task setActiveItem={setActiveItem}/>}
           </div>
         </div>
       </div>

@@ -46,7 +46,8 @@ class Tasks(Resource):
             {
                 "_id": str(task['_id']), 
                 'title': task['title'],
-                'description': task['description']
+                'description': task['description'],
+                'priority': task['priority'],
             } for task in task_cursor]
         return {
             "route": "/tasks", 
