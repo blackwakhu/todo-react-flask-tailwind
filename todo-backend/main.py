@@ -44,11 +44,15 @@ class Tasks(Resource):
         task_cursor = task_collection.find()
         task_list = [
             {
-                "_id": str(task['_id']), 
-                'title': task['title'],
-                'description': task['description'],
-                'priority': task['priority'],
-            } for task in task_cursor]
+                "_id": str(task['_id']),
+                "title": task.get('title', ''),
+                "description": task.get('description', ''),
+                "priority": task.get('priority', ''),
+                "schedule": task['dateScheduled'].isoformat() if isinstance(task.get('dateScheduled'), datetime) else '',
+                "created": task['created'].isoformat() if isinstance(task.get('created'), datetime) else ''
+            }
+            for task in task_cursor
+        ]
         return {
             "route": "/tasks", 
             "data": task_list,
@@ -77,6 +81,8 @@ class Tasks(Resource):
         }
         inserted_task = task_collection.insert_one(new_task)
         new_task['_id'] = str(inserted_task.inserted_id)
+        new_task['dateScheduled'] = new_task['dateScheduled'].isoformat()
+        new_task['created'] = new_task['created'].isoformat()
         return {
             'route': '/tasks',
             'method': 'post',
