@@ -1,5 +1,5 @@
 # Stage 1: Build the React Frontend (Vite)
-FROM node:latest as frontend-builder
+FROM node:23.11.0-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 
@@ -16,7 +16,7 @@ COPY todo-frontend .
 RUN npm run build
 
 # Stage 2: Build the Flask Backend
-FROM python:3.9-slim-buster as backend-builder
+FROM python:alpine AS backend-builder
 
 WORKDIR /app/backend
 
@@ -30,7 +30,7 @@ RUN pip install -r requirements.txt
 COPY todo-backend .
 
 # Stage 3: Final Image with Flask and Built Frontend
-FROM python:3.9-slim-buster
+FROM python:alpine
 
 WORKDIR /app
 
