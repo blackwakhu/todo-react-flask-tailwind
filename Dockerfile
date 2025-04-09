@@ -41,9 +41,11 @@ COPY --from=frontend-builder /app/frontend/dist ./static
 COPY --from=backend-builder /app/backend .
 
 # Set environment variables
-ENV FLASK_APP app.py
-ENV FLASK_ENV production
-ENV PORT 5000  # Standard Flask port
+ENV FLASK_APP=main.py
+ENV FLASK_ENV=production
+ENV PORT=5000  
+
+# Standard Flask port
 
 # Expose the port the Flask app will run on
 EXPOSE 5000
