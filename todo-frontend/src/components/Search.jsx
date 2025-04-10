@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import TaskList from "./TaskLists";
 
 export default function Search() {
   const [tasks, setTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [openTaskId, setOpenTaskId] = useState(null);
+  const [hoveredTaskId, setHoveredTaskId] = useState(null);
 
   useEffect(() => {
     const fetchTasks = () =>
@@ -24,6 +27,10 @@ export default function Search() {
     setFilteredTasks(results);
   }, [searchQuery, tasks]);
 
+  const toggleDescription = (taskId) => {
+    setOpenTaskId(openTaskId === taskId ? null : taskId);
+  };
+
   return (
     <>
       <div>
@@ -36,18 +43,19 @@ export default function Search() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <ul>
-        {filteredTasks.map((task) => (
-          <li key={task._id}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-            <p>Priority: {task.priority}</p>
-            <p>Status: {task.status}</p>
-            <p>Schedule: {task.schedule}</p>
-            <p>Created: {task.created}</p>
-          </li>
-        ))}
-      </ul>
+        {filteredTasks.length > 0 ? (
+          <div>
+            <TaskList
+              tasks={filteredTasks}
+              openTaskId={openTaskId}
+              hoveredTaskId={hoveredTaskId}
+              toggleDescription={toggleDescription}
+              setHoveredTaskId={setHoveredTaskId}
+            />
+          </div>
+        ) : (
+          <div>No tasks available</div>
+        )}
       </div>
     </>
   );

@@ -5,6 +5,7 @@ export default function TaskList({
   toggleDescription,
   setHoveredTaskId,
 }) {
+    
   const getPriorityClass = (priority) => {
     switch (priority) {
       case "High":
