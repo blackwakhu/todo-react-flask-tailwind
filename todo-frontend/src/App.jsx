@@ -1,9 +1,6 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import Task from "./Task";
-import AllTasks from "./AllTasks";
+import Task from "./components/Task";
+import AllTasks from "./components/AllTasks";
 
 function App() {
   const [activeItem, setActiveItem] = useState("dashboard");
