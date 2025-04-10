@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Task from "./components/Task";
 import AllTasks from "./components/AllTasks";
+import Search from "./components/Search";
 
 function App() {
   const [activeItem, setActiveItem] = useState("dashboard");
@@ -49,12 +50,14 @@ function App() {
                 </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 text-gray-700 hover:bg-gray-300 rounded-md"
+              <button
+                  onClick={() => handleItemClick("search")}
+                  className={`block py-2 px-4 transition-transform duration-200 transform hover:scale-105 text-gray-700 hover:bg-gray-300 rounded-md w-full text-left ${
+                    activeItem === "search" ? "bg-blue-500 text-white" : ""
+                  }`}
                 >
                   Search
-                </a>
+                </button>
               </li>
               <li>
                 <a
@@ -88,6 +91,7 @@ function App() {
               <Task setActiveItem={setActiveItem} />
             )}
             {activeItem === "all tasks" && <AllTasks />}
+            {activeItem === "search" && <Search />}
           </div>
         </div>
       </div>
